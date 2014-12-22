@@ -101,36 +101,29 @@ public class MarvelGraphTest {
 		
 		List<String> result = marvelGraph.getShortestPath(vertex1,vertex4);
 		assertEquals(expected,result);
-		
-//		try {
-//			
-//		} catch (NoSuchMovieException | NoPathException e) {
-//			e.printStackTrace();
-//		}
 	}
-//	
+
 	/**
 	 * This test constructs the MarvelGraph from the given data set 
-	 * and checks the number of vertices added to the graph
 	 * 
 	 * NOTE: This can be used to further test the MarvelGraph ADT as done 
 	 * with the tests above
 	 * 
-	 * APPROXIMATE GRAPH BUILD TIME = 70 seconds
+	 * APPROXIMATE GRAPH BUILD TIME = 4.5 minutes
 	 * 
 	 * @throws IOException
 	 */
 	@Test
 	public void testGraphConstructionOnOriginalData() throws IOException {
-		MarvelIterator superHeroIterator = new MarvelIterator("labeled_edges.tsv");
+		MarvelIterator marvelIterator = new MarvelIterator("labeled_edges.tsv");
 		
 		Map<String,List<String>> data = new HashMap<String,List<String>>();
-		while ( superHeroIterator.hasNext() ) {
-			MarvelEntry nextEntry = superHeroIterator.getNext();
-			if(!data.containsKey(nextEntry.getSuperHeroName())){
-				data.put(nextEntry.getSuperHeroName(),new ArrayList<String>());
+		while ( marvelIterator.hasNext()) {
+			MarvelEntry nextEntry = marvelIterator.getNext();
+			if(!data.containsKey(nextEntry.getName())){
+				data.put(nextEntry.getName(),new ArrayList<String>());
 			}
-			data.get(nextEntry.getSuperHeroName()).add(nextEntry.getComicBook());
+			data.get(nextEntry.getName()).add(nextEntry.getComicBook());
 		}
 		
 		MarvelGraph graph = new MarvelGraph();
@@ -150,7 +143,5 @@ public class MarvelGraphTest {
 				}
 			}
 	    }
-
-		assertEquals(graph.getNumberOfVertices(),1682);	
 	}
 }

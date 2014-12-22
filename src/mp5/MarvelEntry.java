@@ -1,27 +1,23 @@
 package mp5;
 
+/**
+ * Represents each line entry in the input file in a tabulated form
+ * 
+ * @author tejbirwason
+ *
+ */
 public class MarvelEntry {
-	private final String superHeroName;
-	private final String secretIdentity;
+	private final String name;
 	private final String comicBook;
 	
-	public MarvelEntry(String superHeroName, String secretIdentity, String comicBook) {
+	public MarvelEntry(String name, String comicBook) {
 		super();
-		this.superHeroName = superHeroName;
-		this.secretIdentity = secretIdentity;
+		this.name = name;
 		this.comicBook = comicBook;
 	}
-	public MarvelEntry(String superHeroName, String comicBook) {
-		super();
-		this.superHeroName = superHeroName;
-		this.secretIdentity = null;
-		this.comicBook = comicBook;
-	}
-	public String getSuperHeroName() {
-		return superHeroName;
-	}
-	public String getSecretIdentity() {
-		return secretIdentity;
+
+	public String getName() {
+		return name;
 	}
 	public String getComicBook() {
 		return comicBook;

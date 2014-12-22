@@ -11,25 +11,23 @@ import java.util.Map;
 public class MP5 {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
 		for(int i=0; i < args.length; i++)
 			System.out.println( args[i] );
 		
-		MarvelIterator superHeroIterator = new MarvelIterator("labeled_edges.tsv");
+		MarvelIterator marvelIterator = new MarvelIterator("labeled_edges.tsv");
 		
 				
 		Map<String,List<String>> data = new HashMap<String,List<String>>();
 		int i=0;
-		while ( superHeroIterator.hasNext() && i<35) {
-			MarvelEntry nextEntry = superHeroIterator.getNext();
-//			System.out.println(nextEntry.getSuperHeroName());
-//			System.out.println(nextEntry.getSecretIdentity());
+		while ( marvelIterator.hasNext() && i<35) {
+			MarvelEntry nextEntry = marvelIterator.getNext();
+//			System.out.println(nextEntry.getName());
 //			System.out.println(nextEntry.getComicBook());
 			
-			if(!data.containsKey(nextEntry.getSuperHeroName())){
-				data.put(nextEntry.getSuperHeroName(),new ArrayList<String>());
+			if(!data.containsKey(nextEntry.getName())){
+				data.put(nextEntry.getName(),new ArrayList<String>());
 			}
-			data.get(nextEntry.getSuperHeroName()).add(nextEntry.getComicBook());
+			data.get(nextEntry.getName()).add(nextEntry.getComicBook());
 			i++;
 		}
 		

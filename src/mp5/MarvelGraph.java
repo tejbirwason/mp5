@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.SynchronousQueue;
 
+import mp4.NoSuchMovieException;
+
 
 
 
@@ -108,28 +110,29 @@ public class MarvelGraph {
 	 * @return the length of the shortest path between the two movies
 	 *         represented by their movie ids.
 	 */
-	public List<String> getShortestPath(String sh1, String sh2){
-			//throws NoSuchHeroException, NoPathException {
-		// TODO: Implement this method
+	public List<String> getShortestPath(String sh1, String sh2)
+			throws NoSuchCharacterException, NoPathException {
 		
+		 if (!vertices.contains(sh1) | !vertices.contains(sh2)){
+			 throw new NoSuchCharacterException();
+		 }
 		Queue<String> q = new LinkedList<String>();
 		Map<String,List<String>> path = new HashMap<String,List<String>>();
 		q.add(sh1);
 		path.put(sh1, new ArrayList<String>());
 		while(!q.isEmpty())		
 		{
-			// We hold the parentVertex or source in this variable 
-            String node = q.remove();   
-            if(node.equals(sh2))
+            String parent = q.remove();   
+            if(parent.equals(sh2))
             {
-            	System.out.println("Found it!"+ path.get(node));
-            	return new ArrayList<String>(path.get(node));
+            	System.out.println("Found a path!"+ path.get(parent));
+            	return new ArrayList<String>(path.get(parent));
             }
 			//For every child connected to the parent								 			           
-            for(Edge e : characterEdgesMap.get(node)){
-            	String child = e.getNeighbourCharacter(node);
+            for(Edge e : characterEdgesMap.get(parent)){
+            	String child = e.getNeighbourCharacter(parent);
             	if(!path.containsKey(child)){
-            		List<String> temp = new ArrayList<String>(path.get(node));
+            		List<String> temp = new ArrayList<String>(path.get(parent));
             		temp.add(e.getComicBook());
             		path.put(child,temp);
             		q.add(child);
@@ -146,7 +149,6 @@ public class MarvelGraph {
 	 * @return vertices 
 	 */
 	public List<Edge> getEdges() {
-		// TODO: Implement this method
 		return new ArrayList<Edge>(edges);
 	}
 	
@@ -155,7 +157,6 @@ public class MarvelGraph {
 	 * @return vertices 
 	 */
 	public List<String> getVertices() {
-		// TODO: Implement this method
 		return new ArrayList<String>(vertices);
 	}
 	
@@ -193,21 +194,4 @@ public class MarvelGraph {
 		System.out.println("Vertices = "+vertices.size());
 		return vertices.size();
 	}
-	
-
-
-	// Implement the next two methods for completeness of the MovieGraph ADT
-
-	@Override
-	public boolean equals(Object other) {
-		// TODO: Implement this
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		// TODO: Implement a reasonable hash code method
-		return 42;
-	}
-
 }

@@ -12,7 +12,7 @@ public class MarvelIterator {
 	private String nextRow;
 
 	/**
-	 * Create a SuperHeroIterator given a filename.
+	 * Create a MarvelIterator given a filename.
 	 * 
 	 * @param fileName
 	 *            the name of the file to open.
@@ -43,9 +43,9 @@ public class MarvelIterator {
 	}
 
 	/**
-	 * Return the next superhero from the iterator.
+	 * Return the next line from the iterator.
 	 * 
-	 * @return the next superhero in the list. Requires that hasNext() is true
+	 * @return the next line in the list. Requires that hasNext() is true
 	 *         otherwise null is returned.
 	 */
 	public MarvelEntry getNext() throws IOException {
@@ -63,14 +63,7 @@ public class MarvelIterator {
 			for (String s: tabulatedEntry) {
 				s.trim();
 			}
-			
-			// the zeroth column represents the superhero name
-			String[] superHeroNameAndID = tabulatedEntry[0].split("/");
 
-			// grab the comicbook
-			String comicBook = tabulatedEntry[1];
-//			ComicBook comicbook = new ComicBook(comicBook);
-			
 			// advance the iterator state wrt the input stream
 			if ((nextRow = inputReader.readLine()) != null) {
 				next = true;
@@ -78,13 +71,7 @@ public class MarvelIterator {
 				next = false;
 			}
 			
-			//if they have two names
-			if ( superHeroNameAndID.length == 2 ){
-				return new MarvelEntry(superHeroNameAndID[0],superHeroNameAndID[1],comicBook);
-			} else {
-				//if the hero has one name
-				return new MarvelEntry(superHeroNameAndID[0],comicBook);
-			}
+			return new MarvelEntry(tabulatedEntry[0],tabulatedEntry[1]);
 		}
 	}
 }

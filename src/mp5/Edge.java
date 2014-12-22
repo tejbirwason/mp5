@@ -1,10 +1,18 @@
 package mp5;
 
-
+/**
+ * An undirected and unweighted edge for the MarvelGraph
+ * with two vertex (characters) and associated comicBook linking 
+ * both the vertices
+ * 
+ * @author tejbirwason
+ *
+ */
 public class Edge {
 	private final String sh1;
 	private final String sh2;
 	private final String comicBook;
+	
 	public Edge(String sh1, String sh2, String comicBook) {
 		super();
 		this.sh1 = sh1;
@@ -13,10 +21,10 @@ public class Edge {
 	}
 	
 	/**
-	 * Determines the neighbouring movie of a supplied movie, based on the 2 nodes connected by this edge.
+	 * Determines the neighbouring character of a supplied character, based on the 2 nodes connected by this edge.
 	 * 
-	 * @param movie One of the movies that this edge joins.
-	 * @return The neighbouring movie.
+	 * @param superHero One of the characters that this edge joins.
+	 * @return The neighbouring character.
 	 *
 	 */
 	public String getNeighbourCharacter(String superHero) {
@@ -27,6 +35,9 @@ public class Edge {
 		}
 	}
 	
+	/**
+	 * To handle edges being undirected
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Edge){
