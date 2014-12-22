@@ -11,12 +11,20 @@ import java.util.concurrent.SynchronousQueue;
 
 
 
-// TODO: Implement this class that represents an undirected graph with movies as vertices.
-// The edges are weighted.
+// TODO: Implement this class that represents an undirected graph with marvel characters as vertices.
 // This graph should be immutable except for the addition of vertices and edges. 
 // It should not be possible to change a vertex after it has been added to the graph.
 
-// You should indicate what the representation invariants and the abstraction function are for the representation you choose.
+//Rep invariant:
+//	vertices, edges != null
+//	for all x, y such that y is a member of edges.get(x),
+//  	x and y are both members of vertices
+//Abstraction function:
+//	represents an undirected graph whose vertices are the set of vertices
+//  and whose edges are the set (x,y) such that y is a member of edges.get(x)
+//Thread safety argument:
+//- vertices and edges are Strings, so those variables are immutable and threadsafe
+//- vertices and edges point to threadsafe set and map data types
 
 public class MarvelGraph {
 
@@ -39,7 +47,6 @@ public class MarvelGraph {
 	public boolean addVertex(String superHeroName) {
 		// TODO: Implement this method
 		
-//		System.out.println("Adding Vertex = "+superHeroName);
 		vertices.add(superHeroName);
 		characterEdgesMap.put(superHeroName, new ArrayList<Edge>());
 		
@@ -67,7 +74,7 @@ public class MarvelGraph {
 	public boolean addEdge(String sh1, String sh2, String comicBook) {
 		// TODO: Implement this method
 		
-		System.out.println(sh1 + " <----"+comicBook+"----> " + sh2);
+		
 		Edge e = new Edge(sh1,sh2,comicBook);
 		
 		for(Edge edge : edges){
@@ -75,6 +82,8 @@ public class MarvelGraph {
 				return false;
 			}
 		}
+		
+		System.out.println(sh1 + " <----"+comicBook+"----> " + sh2);
 		
 		edges.add(e);
 		characterEdgesMap.get(sh1).add(e);
@@ -105,7 +114,6 @@ public class MarvelGraph {
 			//throws NoSuchHeroException, NoPathException {
 		// TODO: Implement this method
 		
-		
 		Queue<String> q = new LinkedList<String>();
 		Map<String,List<String>> path = new HashMap<String,List<String>>();
 		q.add(sh1);
@@ -114,24 +122,25 @@ public class MarvelGraph {
 		{
 			// We hold the parentVertex or source in this variable 
             String node = q.remove();   
-
-//            if(node.equals(sh1))
-//            {
-//            	System.out.println("Found Path!"+ path.get(node));
-//            	return path.get(node);
-//            }
+            System.out.println("head = "+node);
+            if(node.equals(sh2))
+            {
+            	System.out.println("Found it!"+ path.get(node));
+            	return new ArrayList<String>(path.get(node));
+            }
 			//For every child connected to the parent								 			           
             for(Edge e : characterEdgesMap.get(node)){
             	String child = e.getNeighbourCharacter(node);
+            	System.out.println("Parent = "+node +" Child = "+child);
             	if(!path.containsKey(child)){
-            		List<String> temp = new ArrayList<String>();
-            		temp = path.get(node);
+            		List<String> temp = new ArrayList<String>(path.get(node));
             		temp.add(e.getComicBook());
             		path.put(child,temp);
             		q.add(child);
             	}
             }
 		}
+		System.out.println("Not Found!");
 		for (String key : path.keySet()) {
 			System.out.println(key + " has path  "+path.get(key));
 		}

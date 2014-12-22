@@ -20,7 +20,7 @@ public class MP5 {
 				
 		Map<String,List<String>> data = new HashMap<String,List<String>>();
 		int i=0;
-		while ( superHeroIterator.hasNext() && i<20) {
+		while ( superHeroIterator.hasNext() && i<35) {
 			MarvelEntry nextEntry = superHeroIterator.getNext();
 //			System.out.println(nextEntry.getSuperHeroName());
 //			System.out.println(nextEntry.getSecretIdentity());
@@ -54,6 +54,6 @@ public class MP5 {
 	    }
 		System.out.println("Here");
 		
-		graph.getShortestPathLength("HUMAN ROBOT", "LIBRA");
+		graph.getShortestPathLength("HAWK", "GORILLA-MAN");
 	}
 }
