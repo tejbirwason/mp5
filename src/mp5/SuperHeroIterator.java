@@ -12,12 +12,12 @@ public class SuperHeroIterator {
 	private String nextRow;
 
 	/**
-	 * Create a MovieIterator given a filename.
+	 * Create a SuperHeroIterator given a filename.
 	 * 
 	 * @param fileName
 	 *            the name of the file to open.
 	 * @throws IOException
-	 *             if there was a problem reading the file.
+	 *            if there was a problem reading the file.
 	 */
 	public SuperHeroIterator(String fileName) throws IOException {
 
@@ -43,12 +43,12 @@ public class SuperHeroIterator {
 	}
 
 	/**
-	 * Return the next movie from the iterator.
+	 * Return the next superhero from the iterator.
 	 * 
-	 * @return the next movie in the list. Requires that hasNext() is true
+	 * @return the next superhero in the list. Requires that hasNext() is true
 	 *         otherwise null is returned.
 	 */
-	public SuperHero getNext() throws IOException {
+	public MarvelEntry getNext() throws IOException {
 
 		if (!next) {
 			// we are the end of the stream so return null.
@@ -57,21 +57,19 @@ public class SuperHeroIterator {
 			return null;
 		} else {
 			
-			//try to fix this
-			nextRow.replaceAll("\"", " ");
+
 			// split the string at the tabs to create columns
-			String[] columns = nextRow.split("\t");
-			for (String s: columns) {
+			String[] tabulatedEntry = nextRow.replaceAll("\"", "").split("\t");
+			for (String s: tabulatedEntry) {
 				s.trim();
 			}
 			
 			// the zeroth column represents the superhero name
-			
-			String[] superHeroNameAndID = columns[0].split("/");
+			String[] superHeroNameAndID = tabulatedEntry[0].split("/");
 
 			// grab the comicbook
-			String comicBook = columns[1];
-			ComicBook comicbook = new ComicBook(comicBook);
+			String comicBook = tabulatedEntry[1];
+//			ComicBook comicbook = new ComicBook(comicBook);
 			
 			// advance the iterator state wrt the input stream
 			if ((nextRow = inputReader.readLine()) != null) {
@@ -82,20 +80,11 @@ public class SuperHeroIterator {
 			
 			//if they have two names
 			if ( superHeroNameAndID.length == 2 ){
-				SuperHero nextSuperHero = new SuperHero(superHeroNameAndID[0],
-						superHeroNameAndID[1] );
-				nextSuperHero.addAppearance(comicbook);
-				return nextSuperHero;
+				return new MarvelEntry(superHeroNameAndID[0],superHeroNameAndID[1],comicBook);
 			} else {
 				//if the hero has one name
-				SuperHero nextSuperHero = new SuperHero(superHeroNameAndID[0],
-						"" );
-				nextSuperHero.addAppearance(comicbook);
-				return nextSuperHero;
-			
+				return new MarvelEntry(superHeroNameAndID[0],comicBook);
 			}
-			
-			
 		}
 	}
 }
