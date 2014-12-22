@@ -11,6 +11,7 @@ import java.util.concurrent.SynchronousQueue;
 
 
 
+
 // TODO: Implement this class that represents an undirected graph with marvel characters as vertices.
 // This graph should be immutable except for the addition of vertices and edges. 
 // It should not be possible to change a vertex after it has been added to the graph.
@@ -72,9 +73,6 @@ public class MarvelGraph {
 	 *           in the graph.
 	 */
 	public boolean addEdge(String sh1, String sh2, String comicBook) {
-		// TODO: Implement this method
-		
-		
 		Edge e = new Edge(sh1,sh2,comicBook);
 		
 		for(Edge edge : edges){
@@ -83,7 +81,7 @@ public class MarvelGraph {
 			}
 		}
 		
-		System.out.println(sh1 + " <----"+comicBook+"----> " + sh2);
+//		System.out.println(sh1 + " <----"+comicBook+"----> " + sh2);
 		
 		edges.add(e);
 		characterEdgesMap.get(sh1).add(e);
@@ -110,7 +108,7 @@ public class MarvelGraph {
 	 * @return the length of the shortest path between the two movies
 	 *         represented by their movie ids.
 	 */
-	public List<String> getShortestPathLength(String sh1, String sh2){
+	public List<String> getShortestPath(String sh1, String sh2){
 			//throws NoSuchHeroException, NoPathException {
 		// TODO: Implement this method
 		
@@ -122,7 +120,6 @@ public class MarvelGraph {
 		{
 			// We hold the parentVertex or source in this variable 
             String node = q.remove();   
-            System.out.println("head = "+node);
             if(node.equals(sh2))
             {
             	System.out.println("Found it!"+ path.get(node));
@@ -131,7 +128,6 @@ public class MarvelGraph {
 			//For every child connected to the parent								 			           
             for(Edge e : characterEdgesMap.get(node)){
             	String child = e.getNeighbourCharacter(node);
-            	System.out.println("Parent = "+node +" Child = "+child);
             	if(!path.containsKey(child)){
             		List<String> temp = new ArrayList<String>(path.get(node));
             		temp.add(e.getComicBook());
@@ -141,11 +137,63 @@ public class MarvelGraph {
             }
 		}
 		System.out.println("Not Found!");
-		for (String key : path.keySet()) {
-			System.out.println(key + " has path  "+path.get(key));
-		}
 		return null;
 	}
+	
+	
+	/**
+	 * Return the edge list for testing purposes
+	 * @return vertices 
+	 */
+	public List<Edge> getEdges() {
+		// TODO: Implement this method
+		return new ArrayList<Edge>(edges);
+	}
+	
+	/**
+	 * Return the vertex list for testing purposes
+	 * @return vertices 
+	 */
+	public List<String> getVertices() {
+		// TODO: Implement this method
+		return new ArrayList<String>(vertices);
+	}
+	
+	/**
+	 * Prints the graph edges for testing purposes
+	 * @return	void
+	 */
+	public void printEdges() {
+			System.out.println("**GRAPH EDGES**");
+			for ( Edge edge: edges ){
+				System.out.println(edge.getSh1() + " <---"+edge.getComicBook()+"" +
+						"---> " + edge.getSh2());
+			}
+			System.out.println("**END**\n");
+	}
+
+	/**
+	 * Prints the graph vertices for testing purposes
+	 * @return	void
+	 */
+	public void printVertices() {
+			System.out.println("**GRAPH VERTICES**");
+			for ( String superhero: vertices ){
+				System.out.println(superhero);
+			}
+			System.out.println("**END**\n");
+		
+	}	
+	
+	/**
+	 * Returns the total number of vertices in the graph
+	 * @return	size
+	 */
+	public int getNumberOfVertices(){
+		System.out.println("Vertices = "+vertices.size());
+		return vertices.size();
+	}
+	
 
 
 	// Implement the next two methods for completeness of the MovieGraph ADT

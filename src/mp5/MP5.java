@@ -54,6 +54,6 @@ public class MP5 {
 	    }
 		System.out.println("Here");
 		
-		graph.getShortestPathLength("HAWK", "GORILLA-MAN");
+		graph.getShortestPath("HAWK", "GORILLA-MAN");
 	}
 }
