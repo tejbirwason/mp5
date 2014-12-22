@@ -1,6 +1,15 @@
 package mp5;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.SynchronousQueue;
+
+
 
 // TODO: Implement this class that represents an undirected graph with movies as vertices.
 // The edges are weighted.
@@ -11,6 +20,11 @@ import java.util.List;
 
 public class MarvelGraph {
 
+	private final List<String> vertices = new ArrayList<String>();
+	private final List<Edge> edges = new ArrayList<Edge>();
+	
+	private Map<String,ArrayList<Edge>> characterEdgesMap =new HashMap<String,ArrayList<Edge>>();
+	
 	/**
 	 * Add a new movie to the graph. If the movie already exists in the graph
 	 * then this method will return false. Otherwise this method will add the
@@ -25,7 +39,10 @@ public class MarvelGraph {
 	public boolean addVertex(String superHeroName) {
 		// TODO: Implement this method
 		
-		System.out.println("Adding Vertex = "+superHeroName);
+//		System.out.println("Adding Vertex = "+superHeroName);
+		vertices.add(superHeroName);
+		characterEdgesMap.put(superHeroName, new ArrayList<Edge>());
+		
 		return false;
 	}
 
@@ -47,11 +64,23 @@ public class MarvelGraph {
 	 * @modifies this by adding the edge to the graph if the edge did not exist
 	 *           in the graph.
 	 */
-	public boolean addEdge(String sh1, String sh2) {
+	public boolean addEdge(String sh1, String sh2, String comicBook) {
 		// TODO: Implement this method
 		
-		System.out.println(sh1 + " <----> " + sh2);
-		return false;
+		System.out.println(sh1 + " <----"+comicBook+"----> " + sh2);
+		Edge e = new Edge(sh1,sh2,comicBook);
+		
+		for(Edge edge : edges){
+			if(edge.equals(e)){
+				return false;
+			}
+		}
+		
+		edges.add(e);
+		characterEdgesMap.get(sh1).add(e);
+		characterEdgesMap.get(sh2).add(e);
+		
+		return true;
 	}
 
 
@@ -75,6 +104,37 @@ public class MarvelGraph {
 	public List<String> getShortestPathLength(String sh1, String sh2){
 			//throws NoSuchHeroException, NoPathException {
 		// TODO: Implement this method
+		
+		
+		Queue<String> q = new LinkedList<String>();
+		Map<String,List<String>> path = new HashMap<String,List<String>>();
+		q.add(sh1);
+		path.put(sh1, new ArrayList<String>());
+		while(!q.isEmpty())		
+		{
+			// We hold the parentVertex or source in this variable 
+            String node = q.remove();   
+
+//            if(node.equals(sh1))
+//            {
+//            	System.out.println("Found Path!"+ path.get(node));
+//            	return path.get(node);
+//            }
+			//For every child connected to the parent								 			           
+            for(Edge e : characterEdgesMap.get(node)){
+            	String child = e.getNeighbourCharacter(node);
+            	if(!path.containsKey(child)){
+            		List<String> temp = new ArrayList<String>();
+            		temp = path.get(node);
+            		temp.add(e.getComicBook());
+            		path.put(child,temp);
+            		q.add(child);
+            	}
+            }
+		}
+		for (String key : path.keySet()) {
+			System.out.println(key + " has path  "+path.get(key));
+		}
 		return null;
 	}
 

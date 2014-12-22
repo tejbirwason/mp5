@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class SuperHeroIterator {
+public class MarvelIterator {
 
 	private boolean next;
 	private BufferedReader inputReader;
@@ -19,7 +19,7 @@ public class SuperHeroIterator {
 	 * @throws IOException
 	 *            if there was a problem reading the file.
 	 */
-	public SuperHeroIterator(String fileName) throws IOException {
+	public MarvelIterator(String fileName) throws IOException {
 
 		// open the file
 		this.inputReader = new BufferedReader(new InputStreamReader(
